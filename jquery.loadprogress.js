@@ -3,7 +3,6 @@
  * Author : Otto Kamiya (MegazalRock)
  * License : Dual licensed under the MIT or GPL Version 2 licenses.
  * Browser : Chrome23+ (Win/Mac) Firefox14+ (Win/Mac) Opera12+ (Win/Mac) Safari6+(Mac) IE9+(Win) IE8(Win)
- * Usage : http://
  */
 (function(){
     $.extend({
