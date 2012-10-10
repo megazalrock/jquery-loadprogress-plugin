@@ -1,0 +1,40 @@
+@CHARSET "UTF-8";
+#loadprogress-overlay{
+	position: absolute;
+	background: #000;
+	z-index: 100;
+	top:0;
+	left:0;
+	width: 100%;
+	height:100%;
+}
+#loadprogress-box{
+	position:absolute;
+	background:#FFF;
+	border:1px solid #333;
+	top:50%;
+	left:50%;
+	width:300px;
+	margin:-10px 0 0 -150px;
+	height:20px;
+	
+}
+#loadprogress-bar{
+	width:0;
+	height:20px;
+	position:absolute;
+	top:0;
+	left:0;
+	background:#ccc;
+}
+#loadprogress-text{
+	height:20px;
+	line-height:20px;
+	width:100%;
+	text-align:center;
+	font-size:11px;
+	position:absolute;
+	top:0;
+	left:0;
+	
+}
