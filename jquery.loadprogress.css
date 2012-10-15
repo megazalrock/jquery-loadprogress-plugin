@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 #loadprogress-overlay{
-	position: absolute;
+	position: fixed;
 	background: #000;
 	z-index: 100;
 	top:0;

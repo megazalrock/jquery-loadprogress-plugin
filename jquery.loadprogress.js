@@ -1,8 +1,10 @@
  /*
- * jQuery Load Progress Plugin 1.0
+ * jQuery Load Progress Plugin 1.1
  * Author : Otto Kamiya (MegazalRock)
  * License : Dual licensed under the MIT or GPL Version 2 licenses.
  * Browser : Chrome23+ (Win/Mac) Firefox14+ (Win/Mac) Opera12+ (Win/Mac) Safari6+(Mac) IE9+(Win) IE8(Win)
+ * History : 1.1 Mini fix.
+ * 			 1.0 Initial Release.
  */
 (function(){
     $.extend({
@@ -12,12 +14,15 @@
     			imgSelector:'img',
     			easing:'swing',
     			duration:'1000',
-    			showText:true
+    			showText:true,
+    			bodyOverflowFixTo:'auto' //false, auto ,hidden
     		};
     		$.extend(options,_options);
 
 			var bodyElem = document.getElementsByTagName('body')[0];
-			bodyElem.style.overflow = 'hidden';
+			if(options.bodyOverflowFixTo){
+				bodyElem.style.overflow = 'hidden';
+			}
     		
     		var $_overlay = $('<div id="loadprogress-overlay" />');
     		$_overlay
@@ -30,6 +35,15 @@
         		var $_text = $('<div id="loadprogress-text" />');
         		$_text.text('0%');
     		}
+    		
+    		function onResize(){
+    			$_overlay
+    				.css({
+    					height:$(window).height()
+    				});
+    		}
+    		$(window).resize(onResize).resize();
+    		
     		var $_img = $(options.imgSelector);
     		var imgNum = $_img.length;
     		var loadedNum = 0;
@@ -50,8 +64,11 @@
 					$_overlay
 						.delay(200)
 						.fadeTo(options.duration,0,options.easing,function(){
-							bodyElem.style.overflow = 'auto';
+							if(options.bodyOverflowFixTo){
+								bodyElem.style.overflow = options.bodyOverflowFixTo;
+							}
 							$(this).remove();
+							$(window).off('resize',onResize);
 						});
     			})
     			.bind('loadprogressProgress',function(e,loadedNum){
