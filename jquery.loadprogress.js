@@ -16,6 +16,8 @@
     			easing:'swing',
     			duration:'1000',
     			showText:true,
+    			manualMode:false,
+    			manualModeStopNum:95,
     			bodyOverflowFixTo:'auto' //false, auto ,hidden
     		};
     		$.extend(options,_options);
@@ -53,42 +55,58 @@
     			.append($_box.append($_bar).append($_text));
     		$(window)
     			.one('loadprogressEnd',function(){
-					$_bar
-						.stop(true,false)
-						.animate({
-							width:'100%'
-						},400,'swing');
-					if(options.showText){
-						$_text
-							.text('100%');
-					}
-					$_overlay
-						.delay(200)
-						.fadeTo(options.duration,0,options.easing,function(){
-							if(options.bodyOverflowFixTo){
-								bodyElem.style.overflow = options.bodyOverflowFixTo;
-							}
-							$(this).remove();
-							$(window).off('resize',onResize);
-						});
+    				if(!options.manualMode){
+    					onLoadProgressEnd();
+    				}
     			})
     			.bind('loadprogressProgress',function(e,loadedNum){
-					$_bar
-						.css({
-							width:(loadedNum / imgNum * 100) + '%'
-						});
-					if(options.showText){
-						$_text
-							.text(Math.floor((loadedNum / imgNum) * 100) + '%');
-					};
+    				onLoadProgressProgress(loadedNum);
     			});
+    		if(options.manualMode){
+    			$(window).one('loadprogressManualEnd',function(){
+					onLoadProgressEnd();
+    			});
+    		}
+    		
+    		function onLoadProgressEnd(){
+				$_bar
+					.stop(true,false)
+					.animate({
+						width:'100%'
+					},400,'swing');
+				if(options.showText){
+					$_text
+						.text('100%');
+				}
+				$_overlay
+					.delay(200)
+					.fadeTo(options.duration,0,options.easing,function(){
+						if(options.bodyOverflowFixTo){
+							bodyElem.style.overflow = options.bodyOverflowFixTo;
+						}
+						$(this).remove();
+						$(window).off('resize',onResize);
+					});
+    		}
+    		function onLoadProgressProgress(loadedNum){
+    			var per = (options.manualMode)?loadedNum / imgNum * 100 - (100 - options.manualModeStopNum):(loadedNum / imgNum * 100);
+				$_bar
+					.css({
+						width:per + '%'
+					});
+				if(options.showText){
+					$_text
+						.text(Math.floor(per) + '%');
+				};
+    		}
+    		
     		$_img.each(function(n){
 				var src = $(this).attr('src');
 				$('<img />')
 					.one('load',function(){
 	    				loadedNum += 1;
 	    				if(imgNum === loadedNum){
-	    					$(window).trigger('loadprogressEnd');
+		    				$(window).trigger('loadprogressEnd');
 	    				}else{
 	    					$(window).trigger('loadprogressProgress',loadedNum);
 	    				}
