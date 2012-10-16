@@ -1,9 +1,10 @@
  /*
- * jQuery Load Progress Plugin 1.1
+ * jQuery Load Progress Plugin 1.2
  * Author : Otto Kamiya (MegazalRock)
  * License : Dual licensed under the MIT or GPL Version 2 licenses.
  * Browser : Chrome23+ (Win/Mac) Firefox14+ (Win/Mac) Opera12+ (Win/Mac) Safari6+(Mac) IE9+(Win) IE8(Win)
- * History : 1.1 Mini fix.
+ * History : 1.2 Bug Fix for IE
+ * 			 1.1 Mini fix.
  * 			 1.0 Initial Release.
  */
 (function(){
@@ -82,14 +83,17 @@
 					};
     			});
     		$_img.each(function(n){
-    			$(this).one('load',function(){
-    				loadedNum += 1;
-    				if(imgNum === loadedNum){
-    					$(window).trigger('loadprogressEnd');
-    				}else{
-    					$(window).trigger('loadprogressProgress',loadedNum);
-    				}
-    			});
+				var src = $(this).attr('src');
+				$('<img />')
+					.one('load',function(){
+	    				loadedNum += 1;
+	    				if(imgNum === loadedNum){
+	    					$(window).trigger('loadprogressEnd');
+	    				}else{
+	    					$(window).trigger('loadprogressProgress',loadedNum);
+	    				}
+	    			})
+	    			.attr('src',src);
     		});
     	}
     });
