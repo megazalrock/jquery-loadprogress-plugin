@@ -11,10 +11,10 @@
     }],
     "description": "HTML上の画像を元に擬似的にローディング画面を表示するプラグイン",
     "dependencies": {
-        "jquery": ">=1.8.0"
+        "jquery": "1.8.0 - 1.9.0"
     },
     "keywords": ["loading","preloader","loadprogress","ローディング"],
-    "version": "1.1.1",
+    "version": "1.1.2",
     "files": ["jquery.loadprogress.js"],
     "download":"https://github.com/megazalrock/jquery-loadprogress-plugin/archive/master.zip",
     "homepage": "https://github.com/megazalrock/jquery-loadprogress-plugin",
