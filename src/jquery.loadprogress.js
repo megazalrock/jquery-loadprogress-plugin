@@ -1,10 +1,11 @@
  /*global $:true, jQuery:true */
  /*
- * jQuery Load Progress Plugin 1.1.1
+ * jQuery Load Progress Plugin 1.1.3
  * Author : Otto Kamiya (MegazalRock)
  * License : Dual licensed under the MIT or GPL Version 2 licenses.
  * Browser : Chrome23+ (Win/Mac) Firefox14+ (Win/Mac) Opera12+ (Win/Mac) Safari6+(Mac) IE9+(Win) IE8(Win)
  * History :
+ * 1.1.3	404images stop script problem
  * 1.1.2    New Default Design and mini fix
  * 1.1.1    Bug fix
  * 1.1.0    Add Manual Mode
@@ -39,8 +40,9 @@
 				});
 			var $_box = $('<div id="loadprogress-box" />');
 			var $_bar = $('<div id="loadprogress-bar" />');
+			var $_text = '';
 			if(options.showText){
-				var $_text = $('<div id="loadprogress-text" />');
+				$_text = $('<div id="loadprogress-text" />');
 				$_text.text('0%');
 			}
 			
@@ -108,7 +110,7 @@
 			$_img.each(function(){
 				var src = $(this).attr('src');
 				$('<img />')
-					.one('load',function(){
+					.one('load error',function(){
 						loadedNum += 1;
 						if(imgNum === loadedNum){
 							$(window).trigger('loadprogressEnd');
